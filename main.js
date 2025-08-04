@@ -15,7 +15,7 @@ const htmlHumidty = document.querySelector("#humidity span");
 const htmlWind = document.querySelector("#wind span");
 const htmlWeatherContainer = document.querySelector("#weather-data");
 const htmlBackground = document.querySelector("#wallpaper");
-const htmlErrorText = document.querySelector('#error-text')
+const htmlErrorText = document.querySelector("#error-text");
 
 //functions
 const renderWeatherData = async (city) => {
@@ -34,17 +34,19 @@ const renderWeatherData = async (city) => {
 		htmlWind.innerText = data.wind.speed + "km/h";
 		htmlBackground.src = wallpaperURL;
 		htmlWeatherContainer.classList.remove("hide");
-		htmlErrorText.classList.add("hide")
+		htmlErrorText.classList.add("hide");
 	} catch (error) {
-		htmlWeatherContainer.classList.add("hide")
-		htmlErrorText.classList.remove("hide")
-		htmlErrorText.innerText = 'Cidade não encontrada..'
-		
+		htmlWeatherContainer.classList.add("hide");
+		htmlErrorText.classList.remove("hide");
+		htmlErrorText.innerText =
+			"Cidade não encontrada. Verifique o nome e tente novamente.";
 	}
 };
 
 const getWeatherData = async (city) => {
-	const apiWeatherURL = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${apiKey}&lang=pt_br`;
+	const apiWeatherURL = `https://api.openweathermap.org/data/2.5/weather?q=${encodeURIComponent(
+		city
+	)}&units=metric&appid=${apiKey}&lang=pt_br`;
 
 	const res = await fetch(apiWeatherURL);
 
@@ -57,7 +59,9 @@ const getWeatherData = async (city) => {
 };
 
 const getWallpaperData = async (imgName) => {
-	const apiUnsplashURL = `https://api.unsplash.com/search/photos?page=1&query=${imgName}&client_id=${unsplashKey}&orientation=landscape`;
+	const apiUnsplashURL = `https://api.unsplash.com/search/photos?page=1&query=${encodeURIComponent(
+		imgName
+	)}&client_id=${unsplashKey}&orientation=landscape`;
 
 	const response = await fetch(apiUnsplashURL);
 	const data = await response.json();
@@ -68,15 +72,15 @@ const getWallpaperData = async (imgName) => {
 searchBtn.addEventListener("click", (e) => {
 	e.preventDefault();
 	const city = cityInput.value;
+	if (city.trim() === "") return;
 	renderWeatherData(city);
-	getWallpaperData();
-
 	cityInput.value = "";
 });
 
 cityInput.addEventListener("keyup", (e) => {
 	if (e.code === "Enter") {
 		const city = e.target.value;
+		if (city.trim() === "") return;
 		renderWeatherData(city);
 		cityInput.value = "";
 	}

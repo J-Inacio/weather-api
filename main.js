@@ -54,9 +54,9 @@ const getWeatherData = async (city) => {
 	}
 
 	const data = await res.json();
-	const cityHours = isNightOrDay(data.timezone);
+	const dayOrNight = isNightOrDay(data.timezone);
 
-	return [data, cityHours];
+	return [data, dayOrNight];
 };
 
 const getWallpaperData = async (imgName, dayOrNight) => {

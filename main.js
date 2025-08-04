@@ -15,7 +15,7 @@ const htmlHumidty = document.querySelector("#humidity span");
 const htmlWind = document.querySelector("#wind span");
 const htmlWeatherContainer = document.querySelector("#weather-data");
 const htmlBackground = document.querySelector("#wallpaper");
-const htmlErrorText = document.querySelector('#error-container h2')
+const htmlErrorText = document.querySelector('#error-text')
 
 //functions
 const renderWeatherData = async (city) => {
@@ -32,12 +32,14 @@ const renderWeatherData = async (city) => {
 		htmlCountryFlag.src = `https://flagsapi.com/${data.sys.country}/flat/64.png`;
 		htmlHumidty.innerText = data.main.humidity + "%";
 		htmlWind.innerText = data.wind.speed + "km/h";
-
 		htmlBackground.src = wallpaperURL;
 		htmlWeatherContainer.classList.remove("hide");
+		htmlErrorText.classList.add("hide")
 	} catch (error) {
-		htmlErrorText.innerText = error
-		console.log(error.status)
+		htmlWeatherContainer.classList.add("hide")
+		htmlErrorText.classList.remove("hide")
+		htmlErrorText.innerText = 'Cidade não encontrada..'
+		
 	}
 };
 
@@ -47,7 +49,7 @@ const getWeatherData = async (city) => {
 	const res = await fetch(apiWeatherURL);
 
 	if (!res.ok) {
-		throw new Error(`Erro: ${res.status} - ${res.statusText}`);
+		throw new Error(`${res.status} - ${res.statusText}`);
 	}
 
 	const data = await res.json();

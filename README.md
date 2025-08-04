@@ -18,6 +18,8 @@ Um aplicativo web simples que exibe as condições climáticas atuais de uma cid
   - Bandeira do país
   - Ícone do clima atual
 - Insere automaticamente uma imagem da cidade como plano de fundo, via API do Unsplash
+- Busca um wallpaper com a orientação compatível(vertical/horizontal) de acordo com o dispositivo 
+- Busca dinamica de wallpaper de acordo com o horário do local(dia/noite)
 - Tratamento de erros para cidade inválida ou não encontrada
 - Interface leve e responsiva
 

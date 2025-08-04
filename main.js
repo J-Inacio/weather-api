@@ -19,11 +19,10 @@ const htmlErrorText = document.querySelector("#error-text");
 
 //functions
 const renderWeatherData = async (city) => {
-	const wallpaperData = await getWallpaperData(city);
-	const wallpaperURL = wallpaperData.urls.full;
-
 	try {
-		const data = await getWeatherData(city);
+		const [data, dayOrNight] = await getWeatherData(city);
+		const wallpaperData = await getWallpaperData(city, dayOrNight);
+		const wallpaperURL = wallpaperData.urls.full;
 		htmlCity.innerText = data.name;
 		htmlTemperature.innerText = parseInt(data.main.temp);
 		htmlFeelsLike.innerText = parseInt(data.main.feels_like);
@@ -55,19 +54,35 @@ const getWeatherData = async (city) => {
 	}
 
 	const data = await res.json();
-	return data;
+	const cityHours = isNightOrDay(data.timezone);
+
+	return [data, cityHours];
 };
 
-const getWallpaperData = async (imgName) => {
-	const deviceOrientation = window.matchMedia("(orientation: portrait)").matches
-	const currentOrientation = deviceOrientation ? "portrait" : "landscape"
+const getWallpaperData = async (imgName, dayOrNight) => {
+	const deviceOrientation = window.matchMedia(
+		"(orientation: portrait)"
+	).matches;
+	const currentOrientation = deviceOrientation ? "portrait" : "landscape";
 	const apiUnsplashURL = `https://api.unsplash.com/search/photos?page=1&query=${encodeURIComponent(
-		imgName
+		`${imgName} city ${dayOrNight}`
 	)}&client_id=${unsplashKey}&orientation=${currentOrientation}`;
 
 	const response = await fetch(apiUnsplashURL);
 	const data = await response.json();
 	return data.results[0];
+};
+
+const isNightOrDay = (timezone) => {
+	const nowUTC = new Date();
+	const localDate = new Date(nowUTC.getTime() + timezone * 1000);
+
+	const localHour = localDate.getUTCHours().toString();
+	if (localHour > 5 && localHour < 17) {
+		return "during the day";
+	} else {
+		return "at night";
+	}
 };
 
 //events

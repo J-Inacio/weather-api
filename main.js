@@ -59,9 +59,11 @@ const getWeatherData = async (city) => {
 };
 
 const getWallpaperData = async (imgName) => {
+	const deviceOrientation = window.matchMedia("(orientation: portrait)").matches
+	const currentOrientation = deviceOrientation ? "portrait" : "landscape"
 	const apiUnsplashURL = `https://api.unsplash.com/search/photos?page=1&query=${encodeURIComponent(
 		imgName
-	)}&client_id=${unsplashKey}&orientation=landscape`;
+	)}&client_id=${unsplashKey}&orientation=${currentOrientation}`;
 
 	const response = await fetch(apiUnsplashURL);
 	const data = await response.json();

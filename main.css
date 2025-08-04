@@ -6,10 +6,12 @@ body {
 }
 
 #wallpaper {
-	height: 100%;
-	width: 100%;
+	position: fixed;
+	top: 0;
+	left: 0;
+	height: 100vh;
+	width: 100vw;
 	z-index: -1;
-	position: absolute;
 	object-fit: cover;
 	object-position: bottom;
 }
@@ -26,7 +28,7 @@ body {
 .container {
 	color: #fff;
 	width: 50%;
-    max-width: 645px;
+	max-width: 645px;
 	background: transparent;
 	backdrop-filter: blur(4px);
 	box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
@@ -118,4 +120,15 @@ body {
 	border-right: 2px solid#fff;
 	margin: 0.5rem;
 	padding: 0.5rem;
+}
+
+@media screen and (max-width: 600px) {
+	body {
+		font-size: 0.75rem;
+	}
+
+	.container {
+		padding: 1rem;
+		width: 80%;
+	}
 }

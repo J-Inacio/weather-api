@@ -33,6 +33,9 @@ Um aplicativo web simples que exibe as condições climáticas atuais de uma cid
 
 ---
 
+## 🔗 Link para testar o projeto
+- [Clique aqui para testar](https://weather-api-neon-six.vercel.app/)
+
 ## 🧪 Como usar
 
 1. **Clone o repositório:**
